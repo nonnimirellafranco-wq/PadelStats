@@ -12,6 +12,7 @@ let dataInizioPeriodo = null;
 let dataFinePeriodo = null;
 // indice della partita in modifica
 let partitaInModifica = -1;
+let schermataPrecedente = "home";
 let meseCorrente = new Date().getMonth();
 let annoCorrente = new Date().getFullYear();
 
@@ -42,7 +43,11 @@ const btnStatistiche = document.getElementById("btnStatistiche");
 const btnImpostazioni = document.getElementById("btnImpostazioni");
 const btnAgenda = document.getElementById("btnAgenda");
 const btnSalva = document.getElementById("salvaPartita");
+const btnTorna = document.getElementById("btnTorna");
 const btnSalvaProfilo = document.getElementById("salvaProfilo");
+
+btnTorna.onclick = tornaIndietro;
+
 
 // ----------------------------
 // MENU
@@ -273,6 +278,16 @@ function mostraInformazioni(){
 
 }
 
+function mostraArchivio(){
+
+    nascondiSezioni();
+
+    archivio.style.display = "block";
+
+    aggiornaArchivio();
+
+}
+
 // ----------------------------
 // EVENTI MENU
 // ----------------------------
@@ -312,7 +327,7 @@ document.getElementById("data").valueAsDate = new Date();
 
 function aggiornaDashboard(){
 
-    const elenco = filtraPartitePeriodo();
+    const elenco = filtraPartitePeriodo().filter(partitaGiocata);
 
     let vittorie = elenco.filter(p => p.esito == "Vittoria").length;
 
@@ -395,6 +410,10 @@ let html = "";
 const gruppi = {};
 
 partite.forEach(function(p, indice){
+
+    if(!partitaGiocata(p)){
+        return;
+    }
 
     let chiave = creaChiaveMese(p.data);
 
@@ -643,6 +662,20 @@ if(!testo.includes(filtro))
 
 btnSalva.onclick = function () {
 
+const btnTorna = document.getElementById("btnTorna");
+
+if(btnTorna){
+
+    btnTorna.onclick = tornaIndietro;
+
+}
+
+aggiornaRisultato();
+
+if(document.getElementById("risultato").value.trim() === ""){
+    document.getElementById("esito").value = "";
+}
+
     const partita = {
 
         data: document.getElementById("data").value,
@@ -695,7 +728,7 @@ cambiaModalita();
 
     document.getElementById("data").valueAsDate = new Date();
 
-    mostraNuova();
+    tornaIndietro();
 
 };
 
@@ -846,9 +879,17 @@ function aggiornaProssimaPartita(){
         String(oggi.getMonth()+1).padStart(2,"0") + "-" +
         String(oggi.getDate()).padStart(2,"0");
 
-    const future = partite
-        .filter(p => p.data > oggiStringa)
-        .sort((a,b)=>a.data.localeCompare(b.data));
+ const future = partite
+    .filter(p =>
+        !partitaGiocata(p) &&
+        p.data >= oggiStringa &&
+        (
+            (p.compagno || "").trim() !== "" ||
+            (p.avv1 || "").trim() !== "" ||
+            (p.avv2 || "").trim() !== ""
+        )
+    )
+    .sort((a,b)=>a.data.localeCompare(b.data));
 
     if(future.length===0){
 
@@ -918,12 +959,13 @@ function aggiornaCarouselPartite(){
 
 
 
-console.log(box);
-console.log(partite.length);
 
     if(!box) return;
 
-    const ultime = partite.slice(-3).reverse();
+    const ultime = partite
+    .filter(partitaGiocata)
+    .slice(-3)
+    .reverse();
 
     if(ultime.length===0){
 
@@ -1054,6 +1096,20 @@ function modificaPartita(indice){
     }
 
     partitaInModifica = indice;
+
+    if(agenda.style.display=="block"){
+
+    schermataPrecedente = "agenda";
+
+}else if(archivio.style.display=="block"){
+
+    schermataPrecedente = "archivio";
+
+}else{
+
+    schermataPrecedente = "home";
+
+}
 
     mostraNuova();
 
@@ -2660,6 +2716,13 @@ function mostraStelle(voto){
 
 }
 
+function partitaGiocata(partita){
+
+    return (partita.risultato || "").trim() !== "";
+
+}
+
+
 // ----------------------------
 // STELLE TOUCH
 // ----------------------------
@@ -2879,9 +2942,10 @@ function apriGiorno(data){
     const popup = document.getElementById("popupAgenda");
     const box = document.getElementById("contenutoPopupAgenda");
 
-    let html = `<h2 style="text-align:center;">📅 ${data}</h2>`;
+   let html = `<h2 style="text-align:center;">📅 ${data}</h2>`;
 
     partiteGiorno.forEach(function(partita,index){
+    const indiceOriginale = partite.indexOf(partita);
 
         let colore = "#C62828";
         let icona = "❌";
@@ -2941,21 +3005,34 @@ ${mostraStelle(partita.stelle)}
 
 <div class="footerPartita">
 
-    <div class="footerRiga">
-
-        <div class="circolo">
-            🏟 ${p.circolo}
-        </div>
-
-        <button class="btnIcona" onclick="condividiPartita(partite.indexOf(p))">
-            📤
-        </button>
-
+    <div class="circolo">
+        🏟 ${partita.circolo}
     </div>
 
     <div class="attrezzatura">
-        🎾 ${p.racchetta || "-"} &nbsp;&nbsp;
-        👟 ${p.scarpe || "-"}
+        🎾 ${partita.racchetta || "-"} &nbsp;&nbsp;
+        👟 ${partita.scarpe || "-"}
+    </div>
+
+    <div class="azioniPartita">
+
+        <button class="btnIcona"
+                onclick="modificaPartita(${indiceOriginale})">
+            ✏️
+        </button>
+
+        ${partitaGiocata(partita) ? `
+        <button class="btnIcona"
+                onclick="condividiPartita(${indiceOriginale})">
+            📤
+        </button>
+        ` : ""}
+
+        <button class="btnIcona"
+                onclick="eliminaPartita(${indiceOriginale})">
+            🗑️
+        </button>
+
     </div>
 
 </div>
@@ -2979,6 +3056,24 @@ ${partita.note ?
     box.innerHTML = html;
 
     popup.style.display="flex";
+
+}
+
+function tornaIndietro(){
+
+    if(schermataPrecedente=="agenda"){
+
+        mostraAgenda();
+
+    }else if(schermataPrecedente=="archivio"){
+
+        mostraArchivio();
+
+    }else{
+
+        mostraHome();
+
+    }
 
 }
 
@@ -3067,23 +3162,23 @@ let simbolo = "";
 
 partiteGiorno.slice(0,3).forEach(function(p){
 
-    if(p.data > oggiStringa){
+   if(!partitaGiocata(p)){
 
-        simbolo += "📅";
+    simbolo += "📅";
 
-    }else if(p.esito=="Vittoria"){
+}else if(p.esito=="Vittoria"){
 
-        simbolo += "🟢";
+    simbolo += "🟢";
 
-    }else if(p.esito=="Pareggio"){
+}else if(p.esito=="Pareggio"){
 
-        simbolo += "🟡";
+    simbolo += "🟡";
 
-    }else if(p.esito=="Sconfitta"){
+}else if(p.esito=="Sconfitta"){
 
-        simbolo += "🔴";
+    simbolo += "🔴";
 
-    }
+}
 
 });
 
@@ -3173,19 +3268,23 @@ function aggiornaRisultato(){
 
     document.getElementById("risultato").value = risultato.trim();
 
-    if(setVinti > setPersi){
+   if(risultato.trim() === ""){
 
-        document.getElementById("esito").value = "Vittoria";
+    document.getElementById("esito").value = "";
 
-    }else if(setPersi > setVinti){
+}else if(setVinti > setPersi){
 
-        document.getElementById("esito").value = "Sconfitta";
+    document.getElementById("esito").value = "Vittoria";
 
-    }else{
+}else if(setPersi > setVinti){
 
-        document.getElementById("esito").value = "Pareggio";
+    document.getElementById("esito").value = "Sconfitta";
 
-    }
+}else{
+
+    document.getElementById("esito").value = "Pareggio";
+
+}
 
 }
 
@@ -4092,7 +4191,7 @@ if(!/Android|iPhone|iPad/i.test(navigator.userAgent)){
 
     link.href = URL.createObjectURL(blob);
 
-    link.download = "PadelStats.png";
+    link.download = `PadelStats_${partita.data}_${partita.esito || "Programmata"}.png`;
 
     link.click();
 
@@ -4127,6 +4226,66 @@ if ("serviceWorker" in navigator) {
                 console.log("Errore Service Worker:", errore);
             });
 
+    });
+
+}
+
+async function condividiPartita(indice){
+
+    const partita = partite[indice];
+
+    if(!partita){
+
+        alert("Nessuna partita presente.");
+
+        return;
+
+    }
+
+    preparaCardCondivisione(partita);
+
+    const card = document.getElementById("shareCard");
+
+    card.style.left = "20px";
+
+    const canvas = await html2canvas(card,{
+        scale:2,
+        backgroundColor:null,
+        useCORS:true
+    });
+
+    card.style.left = "-9999px";
+
+    const blob = await new Promise(resolve =>
+        canvas.toBlob(resolve,"image/png")
+    );
+
+    // PC → scarica il PNG
+    if(!/Android|iPhone|iPad/i.test(navigator.userAgent)){
+
+        const link = document.createElement("a");
+
+        link.href = URL.createObjectURL(blob);
+
+        link.download = `PadelStats_${partita.data}_${partita.esito || "Programmata"}.png`;
+
+        link.click();
+
+        return;
+
+    }
+
+    // Telefono → condividi
+    const file = new File(
+        [blob],
+        "PadelStats.png",
+        {type:"image/png"}
+    );
+
+    await navigator.share({
+        title:"Padel Stats",
+        text:"🎾 La mia partita",
+        files:[file]
     });
 
 }

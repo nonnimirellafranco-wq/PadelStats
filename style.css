@@ -233,39 +233,6 @@ textarea{
 
 }
 
-#salvaPartita{
-
-    width:100%;
-
-    margin-top:30px;
-
-    padding:18px;
-
-    background:var(--primary);
-
-    color:white;
-
-    border:none;
-
-    border-radius:12px;
-
-    font-size:20px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-#salvaPartita:hover{
-
-    background:var(--primary-hover);
-
-    transform:translateY(-2px);
-
-}
 /* ARCHIVIO */
 
 #listaPartite{
@@ -2736,3 +2703,65 @@ body.temaScuro textarea{
 
 }
 
+/* Pulsanti Torna + Salva */
+
+.azioniForm{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:30px;
+
+}
+
+#btnTorna,
+#salvaPartita{
+
+    flex:1;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+#btnTorna{
+
+    background:#666;
+
+    color:white;
+
+}
+
+#btnTorna:hover{
+
+    background:#555;
+
+}
+
+#salvaPartita{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+#salvaPartita:hover{
+
+    background:var(--primary-hover);
+
+    transform:translateY(-2px);
+
+}
