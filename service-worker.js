@@ -1,4 +1,4 @@
-const CACHE_NAME = "padelstats-v2";
+const CACHE_NAME = "padelstats-v3";
 
 const FILES_TO_CACHE = [
   "./",
