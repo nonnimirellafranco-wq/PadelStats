@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Padel Stats</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="themes.css">
+<link rel="manifest" href="manifest.json">
+
+</head>
+
+
+<body>
+
+<div id="popupStatistica" class="popup">
+
+    <div class="popupContenuto">
+
+        <span class="chiudiPopup"
+              onclick="chiudiPopup()">
+
+            ✖
+
+        </span>
+
+        <h2 id="titoloPopup">
+
+        </h2>
+
+        <div id="contenutoPopup">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<header>
+
+<div class="headerTop">
+
+<div class="logoTitolo">
+
+    <img
+        src="immagini/logoHeader.png"
+        class="logoHeader"
+        alt="Padel Stats">
+
+</div>
+   <div class="profiloHeader">
+
+    <button id="btnSistema" class="btnSistema">☰</button>
+
+    <div class="utenteHeader">
+
+        <img id="fotoHome" class="fotoHome">
+
+        <span id="nomeHeader"></span>
+
+    </div>
+
+</div>
+
+</div>
+
+
+</header>
+
+<footer class="bottomBar">
+
+    <button id="btnHome">
+        🏠
+        <span>Home</span>
+    </button>
+
+    <button id="btnNuova">
+        ➕
+        <span>Nuova</span>
+    </button>
+
+    <button id="btnAgenda">
+        🗓
+        <span>Agenda</span>
+    </button>
+
+    <button id="btnAltro">
+        ⋯
+        <span>Altro</span>
+    </button>
+
+</footer>
+
+<div id="overlayMenu" class="overlayMenu"></div>
+
+<div id="menuGioco" class="menuGioco">
+
+    <div class="titoloMenu">
+
+        <h2>Menu</h2>
+
+        <span id="chiudiMenuGioco">✕</span>
+
+    </div>
+
+    <button id="btnArchivioMenu">📋 Archivio</button>
+
+    <button id="btnStatisticheMenu">📊 Statistiche</button>
+
+    <button id="btnValoriMenu">⚙️ Valori iniziali</button>
+
+
+    <hr>
+
+    <button id="btnRecordMenu">🏆 Record</button>
+
+    <button id="btnGiocatoriMenu">👥 Giocatori</button>
+
+    <button id="btnCircoliMenu">🏟 Circoli</button>
+
+    <button id="btnAttrezzaturaMenu">🎾 Attrezzatura</button>
+
+</div>
+
+<div id="overlaySistema" class="overlayMenu"></div>
+
+<div id="menuSistema" class="menuGioco menuSinistra">
+
+    <div class="titoloMenu">
+
+        <h2>Sistema</h2>
+
+        <span id="chiudiMenuSistema">✕</span>
+
+    </div>
+
+    <button id="btnProfiloMenu">👤 Profilo</button>
+
+    <button id="btnImpostazioniMenu">⚙️ Impostazioni</button>
+
+    <button id="btnBackupMenu">💾 Backup</button>
+
+    <hr>
+
+    <button id="btnInfoMenu">ℹ️ Informazioni</button>
+
+</div>
+
+<main>
+
+<!-- HOME -->
+
+<section id="home">
+
+<div class="welcomeHome">
+
+    <h2 id="salutoHome">👋 Bentornato</h2>
+
+    <p>
+        Le tue statistiche di padel
+    </p>
+
+</div>
+
+<div class="filtroPeriodo">
+
+    <button class="periodo attivo" data-periodo="1mese">1M</button>
+
+    <button class="periodo" data-periodo="3mesi">3M</button>
+
+    <button class="periodo" data-periodo="6mesi">6M</button>
+
+    <button class="periodo" data-periodo="1anno">1A</button>
+
+    <button class="periodo" id="btnPeriodoPersonalizzato">
+        📅 Periodo
+    </button>
+
+</div>
+
+<div class="dashboard">
+
+    <div class="card statCard">
+        <div class="statIcon">🎾</div>
+        <h2 id="totPartite">0</h2>
+        <span>Partite</span>
+    </div>
+
+    <div class="card statCard">
+        <div class="statIcon">🏆</div>
+        <h2 id="totVittorie">0</h2>
+        <span>Vittorie</span>
+    </div>
+
+    <div class="card statCard">
+        <div class="statIcon">🤝</div>
+        <h2 id="totPareggi">0</h2>
+        <span>Pareggi</span>
+    </div>
+
+    <div class="card statCard">
+        <div class="statIcon">❌</div>
+        <h2 id="totSconfitte">0</h2>
+        <span>Sconfitte</span>
+    </div>
+
+    <div class="card statCard statGrande">
+
+        <div class="statIcon">📈</div>
+
+        <h2 id="percentuale">0%</h2>
+
+        <span>Win Rate</span>
+
+    </div>
+
+</div>
+
+<div class="ultimePartiteHome">
+
+   <div class="titoloUltime">
+
+    <h2>🕒 Ultime partite</h2>
+
+    <span id="contatoreCarousel">1 / 3</span>
+
+</div>
+
+    <div id="carouselPartite">
+
+                </div>
+
+</div>
+
+<button id="btnCondividi" class="btnPrimario" onclick="testCardCondivisione()">
+
+    📤 Condividi ultima partita
+
+</button>
+       
+<div class="homeBottom">
+
+    <div class="card statoFormaCard">
+
+        <h2>🔥 Stato di forma</h2>
+
+        <div id="indiceForma">0 / 10</div>
+
+        <div id="ultime10Pallini" class="ultime10Pallini"></div>
+
+        <canvas id="graficoForma" width="260" height="70"></canvas>
+
+        <p>Ultime 10 partite</p>
+
+    </div>
+
+    <div class="card prossimaPartitaCard">
+
+        <h2>📅 Prossima partita</h2>
+
+       <div id="prossimaPartita">
+
+    <div class="nessunaPartita">
+
+        <div class="iconaCalendario">📅</div>
+
+        <p>Nessuna partita<br>programmata</p>
+
+    </div>
+
+</div>
+
+    </div>
+
+</div>
+   
+
+</section>
+
+<!-- NUOVA PARTITA -->
+
+<section id="nuovaPartita" style="display:none;">
+
+<h2>Nuova partita</h2>
+
+<div class="card">
+
+    <h3>👥 Modalità di gioco</h3>
+
+    <label>
+        <input type="radio"
+               name="modalita"
+               value="standard"
+               checked
+               onchange="cambiaModalita()">
+        Standard
+    </label>
+
+    &nbsp;&nbsp;&nbsp;
+
+    <label>
+        <input type="radio"
+               name="modalita"
+               value="singolo"
+               onchange="cambiaModalita()">
+        Singolo
+    </label>
+
+</div>
+
+<form id="formPartita">
+
+<label>Data</label>
+
+<input type="date" id="data">
+
+<label>Circolo</label>
+
+<input type="text" id="circolo">
+
+<label>Campo</label>
+
+<select id="campo">
+
+<option>Indoor</option>
+
+<option>Outdoor</option>
+
+</select>
+
+<label>🎾 Racchetta</label>
+
+<input type="text" id="racchetta" list="listaRacchette">
+
+<datalist id="listaRacchette"></datalist>
+
+<label>👟 Scarpe</label>
+
+<input type="text" id="scarpe" list="listaScarpe">
+
+<datalist id="listaScarpe"></datalist>
+
+<label>🎾 Palline</label>
+<input type="text" id="palline" list="listaPalline">
+<datalist id="listaPalline"></datalist>
+
+<div id="bloccoCompagno">
+
+    <label>Compagno</label>
+
+    <input type="text" id="compagno" list="listaGiocatori">
+
+</div>
+
+<label id="labelAvv1">Avversario 1</label>
+
+<input type="text" id="avv1" list="listaGiocatori">
+
+<div id="bloccoAvv2">
+
+    <label>Avversario 2</label>
+
+    <input type="text" id="avv2" list="listaGiocatori">
+
+</div>
+
+<datalist id="listaGiocatori"></datalist>
+
+<label>🎾 Punteggio</label>
+
+<div class="contenitoreSet">
+
+    <div class="setPartita" id="set1">
+
+        <h4>SET 1</h4>
+
+        <div class="rigaSet">
+
+            <span id="labelNoi1">👥 Noi</span>
+
+           <input
+type="number"
+id="io1"
+min="0"
+max="99"
+oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+        </div>
+
+        <div class="rigaSet">
+
+            <span id="labelLoro1">⚔️ Loro</span>
+
+            <input type="number" id="avvSet1" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+        </div>
+
+    </div>
+
+    <div class="setPartita" id="set2">
+
+        <h4>SET 2</h4>
+
+        <div class="rigaSet">
+
+            <span id="labelNoi2">👥 Noi</span>
+
+            <input type="number" id="io2" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+        </div>
+
+        <div class="rigaSet">
+
+            <span id="labelLoro2">⚔️ Loro</span>
+
+           <input type="number" id="avvSet2" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+        </div>
+
+    </div>
+
+    <div class="setPartita" id="set3">
+
+        <h4>SET 3</h4>
+
+        <div class="rigaSet">
+
+            <span id="labelNoi3">👥 Noi</span>
+
+           <input type="number" id="io3" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+        </div>
+
+        <div class="rigaSet">
+
+            <span id="labelLoro3">⚔️ Loro</span>
+
+            <input type="number" id="avvSet3" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+        </div>
+
+    </div>
+
+</div>
+
+<button
+type="button"
+id="btnAggiungiSet"
+onclick="aggiungiSet()">
+
+➕ Aggiungi 4° set
+
+</button>
+<div
+class="setPartita"
+id="set4"
+style="display:none;">
+
+<h4>SET 4</h4>
+
+<div class="rigaSet">
+
+<span id="labelNoi4">👥 Noi</span>
+
+<input type="number" id="io4" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+</div>
+
+<div class="rigaSet">
+
+<span id="labelLoro4">⚔️ Loro</span>
+
+<input type="number" id="avvSet4" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+</div>
+
+</div>
+
+
+<div
+class="setPartita"
+id="set5"
+style="display:none;">
+
+<h4>SET 5</h4>
+
+<div class="rigaSet">
+
+<span id="labelNoi5">👥 Noi</span>
+
+<input type="number" id="io5" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+
+</div>
+
+<div class="rigaSet">
+
+<span id="labelLoro5">⚔️ Loro</span>
+
+<input type="number" id="avvSet5" min="0" max="99" oninput="aggiornaRisultato();passaAlSuccessivo(event)">
+</div>
+
+</div>
+
+<input
+type="hidden"
+id="risultato">
+
+<input
+type="hidden"
+id="esito">
+
+<label>⭐ Come hai giocato?</label>
+
+<div id="stelleTouch" class="stelleTouch">
+
+    <span data-voto="1">☆</span>
+    <span data-voto="2">☆</span>
+    <span data-voto="3">☆</span>
+    <span data-voto="4">☆</span>
+    <span data-voto="5">☆</span>
+
+</div>
+
+<select id="stelle" style="display:none;">
+
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3" selected>3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+
+</select>
+
+<label>🏆 Tipo partita</label>
+
+<select id="tipoPartita">
+
+    <option value="Amichevole">🤝 Amichevole</option>
+
+    <option value="Competitiva">🏆 Competitiva</option>
+
+</select>
+
+<label>Note</label>
+
+<textarea id="note"></textarea>
+
+<button type="button" id="salvaPartita">
+
+💾 Salva Partita
+
+</button>
+
+</form>
+
+</section>
+
+<!-- ARCHIVIO -->
+
+<section id="archivio" style="display:none;">
+
+<h2>Archivio</h2>
+
+<input
+    type="text"
+    id="ricercaArchivio"
+    placeholder="🔍 Cerca giocatore o circolo..."
+>
+
+<div id="listaPartite">
+
+</div>
+
+</section>
+
+<!-- STATISTICHE -->
+
+<section id="statistiche" style="display:none;">
+
+<h2>📊 Dashboard Statistiche</h2>
+
+<div class="grigliaStatistiche">
+
+<div class="card cardStatistica"
+     onclick="apriStatistica('migliorCompagno')">
+
+    <div class="iconaStat">🏆</div>
+
+    <h3>Miglior Compagno</h3>
+
+    <p>Tocca per visualizzare</p>
+
+</div>
+
+
+<div class="card cardStatistica" onclick="apriStatistica('statTipoPartita')">
+
+    <div class="iconaStat">📊</div>
+
+    <h3>Tipo partita</h3>
+
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('compagni')">
+
+    <div class="iconaStat">👥</div>
+    <h3>Compagni</h3>
+
+
+</div>
+
+<div class="card cardStatistica" onclick="apriStatistica('giocatori')">
+
+    <div class="iconaStat">👥</div>
+
+    <h3>Giocatori</h3>
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('classificaAvversari')">
+
+    <div class="iconaStat">😈</div>
+
+    <h3>Avversari</h3>
+
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('recordPersonali')">
+
+    <div class="iconaStat">🔥</div>
+
+    <h3>Record</h3>
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('statisticheCampo')">
+
+    <div class="iconaStat">🏠</div>
+
+    <h3>Indoor / Outdoor</h3>
+
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('ultimePartiteGrafico')">
+
+    <div class="iconaStat">📈</div>
+
+    <h3>Ultime 10</h3>
+
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('statAttrezzatura')">
+
+    <div class="iconaStat">🎾</div>
+
+    <h3>Attrezzatura</h3>
+
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('ultimi30giorni')">
+
+    <div class="iconaStat">📅</div>
+
+    <h3>Ultimi 30 giorni</h3>
+
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('migliorCircolo')">
+
+    <div class="iconaStat">🏟️</div>
+
+    <h3>Circoli</h3>
+
+
+</div>
+
+
+
+<div class="card cardStatistica" onclick="apriStatistica('rendimento')">
+
+    <div class="iconaStat">📈</div>
+
+    <h3>Rendimento</h3>
+
+
+</div>
+
+</div>
+
+<div id="statisticheNascoste" style="display:none;">
+
+    <div id="migliorCompagno"></div>
+
+    <div id="statTipoPartita"></div>
+
+    <div id="classificaCompagni"></div>
+
+    <div id="classificaAvversari"></div>
+
+    <div id="recordPersonali"></div>
+
+    <div id="statisticheCampo"></div>
+
+    <div id="ultimePartiteGrafico"></div>
+
+    <div id="statAttrezzatura"></div>
+
+    <div id="ultimi30giorni"></div>
+
+    <div id="migliorCircolo"></div>
+
+    <div id="rendimento"></div>
+
+</div>
+
+
+</section>
+
+<section id="valoriIniziali" style="display:none;">
+
+    <form>
+
+        <h2>⚙️ Valori iniziali</h2>
+
+        <label>🎾 Racchetta</label>
+        <input type="text" id="defaultRacchetta">
+
+        <label>🎾 Palline</label>
+        <input type="text" id="defaultPalline">
+
+        <label>👟 Scarpe</label>
+        <input type="text" id="defaultScarpe">
+
+        <label>🏟 Circolo</label>
+        <input type="text" id="defaultCircolo">
+
+        <label>🏟 Campo</label>
+
+        <select id="defaultCampo">
+            <option value="Indoor">Indoor</option>
+            <option value="Outdoor">Outdoor</option>
+        </select>
+
+        <button type="button" id="btnSalvaValori">
+            💾 Salva
+        </button>
+
+    </form>
+
+</section>
+
+
+<section id="agenda" style="display:none;">
+
+  
+
+<div class="card">
+
+    <div id="headerCalendario" class="headerCalendario"></div>
+
+    <div id="calendario"></div>
+
+</div>
+
+<div id="dettaglioAgenda" class="card" style="display:none;margin-top:20px;"></div>
+
+<!-- POPUP AGENDA -->
+
+<div id="popupAgenda" class="popupAgenda">
+
+    <div class="popupAgendaContenuto">
+
+        <span class="chiudiPopup" onclick="chiudiPopupAgenda()">✖</span>
+
+        <div id="contenutoPopupAgenda"></div>
+
+    </div>
+
+</div>
+
+</section>
+
+<section id="impostazioni" style="display:none;">
+
+<div class="card">
+
+    <h2>👤 Profilo</h2>
+
+    <img id="fotoProfilo"
+         src=""
+         class="fotoProfilo">
+
+    <input
+        type="file"
+        id="inputFoto"
+        accept="image/*"
+        style="display:none;">
+
+    <button
+        type="button"
+        id="btnFoto"
+        class="btnBackup">
+
+        📸 Modifica foto
+
+    </button>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>👤 Dati giocatore</h2>
+
+<label>👤 Il tuo nome</label>
+
+<input
+    type="text"
+    id="nomeGiocatore"
+    placeholder="Es. Fabio">
+
+<label>🤚 Mano dominante</label>
+
+<select id="manoDominante">
+    <option value="Destra">Destra</option>
+    <option value="Sinistra">Sinistra</option>
+    <option value="Ambidestra">Ambidestra</option>
+</select>
+
+<label>🎾 Lato preferito</label>
+
+<select id="latoPreferito">
+    <option value="Destra">Destra</option>
+    <option value="Sinistra">Sinistra</option>
+    <option value="Indifferente">Indifferente</option>
+</select>
+
+<label>⭐ Livello</label>
+
+<select id="livelloGioco">
+    <option value="Principiante">Principiante</option>
+    <option value="Intermedio">Intermedio</option>
+    <option value="Avanzato">Avanzato</option>
+    <option value="Agonista">Agonista</option>
+</select>
+
+<br><br>
+
+<button
+    id="salvaProfilo"
+    class="btnBackup">
+
+    💾 Salva profilo
+
+</button>
+
+</div>
+
+</section>
+
+<section id="impostazioniApp" style="display:none;">
+
+<div class="card">
+
+<h2>⚙️ Impostazioni</h2>
+
+<div class="bloccoImpostazioni">
+
+    <h3>🌙 Tema</h3>
+
+    <label class="rigaTema">
+        <input type="radio" name="tema" value="chiaro" checked>
+        ☀️ Modalità chiara
+    </label>
+
+    <label class="rigaTema">
+        <input type="radio" name="tema" value="scuro">
+        🌙 Modalità scura
+    </label>
+
+</div>
+
+<hr>
+
+<div class="bloccoImpostazioni">
+
+    <h3>🎨 Colore dell'app</h3>
+
+    <div class="colorPicker">
+
+        <button class="colorBtn" data-color="#1565C0" style="background:#1565C0"></button>
+
+        <button class="colorBtn" data-color="#2E7D32" style="background:#2E7D32"></button>
+
+        <button class="colorBtn" data-color="#6A1B9A" style="background:#6A1B9A"></button>
+
+        <button class="colorBtn" data-color="#C62828" style="background:#C62828"></button>
+
+        <button class="colorBtn" data-color="#EF6C00" style="background:#EF6C00"></button>
+
+    </div>
+
+</div>
+</div>
+
+</section>
+
+<section id="backup" style="display:none;">
+
+  <div class="card backupCard">
+
+    <h2>💾 Backup</h2>
+
+    <button id="esportaDati" class="btnBackup">
+        📤 Esporta Backup
+    </button>
+
+    <label for="importaDati" class="btnImporta">
+
+        📥 Importa Backup
+
+    </label>
+
+    <input
+        type="file"
+        id="importaDati"
+        accept=".json"
+        hidden>
+
+</div>
+
+</section>
+
+<section id="informazioni" style="display:none;">
+
+    <div class="card">
+
+        <h2>ℹ️ Informazioni</h2>
+
+        <p><b>Padel Stats</b></p>
+
+        <p>Versione 1.0</p>
+
+        <hr>
+
+        <p>
+            Applicazione personale per registrare partite,
+            statistiche e andamento nel tempo.
+        </p>
+
+        <hr>
+
+        <p>
+            © 2026 Fabio
+        </p>
+
+    </div>
+
+</section>
+
+<div id="popupPeriodo" class="popup">
+
+    <div class="popupContenuto">
+
+        <span class="chiudiPopup" onclick="chiudiPopupPeriodo()">
+            ✖
+        </span>
+
+        <h2>📅 Seleziona periodo</h2>
+
+        <label>Data inizio</label>
+
+        <input
+            type="date"
+            id="dataInizio">
+
+        <label>Data fine</label>
+
+        <input
+            type="date"
+            id="dataFine">
+
+        <br><br>
+
+<button
+    id="btnAzzeraPeriodo"
+    class="btnImporta">
+
+    🔄 Reimposta
+
+</button>
+
+&nbsp;
+
+        <button
+            id="btnApplicaPeriodo"
+            class="btnBackup">
+
+            ✅ Applica
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="shareCard" class="shareCard">
+
+    <div class="shareHeader">
+
+        <div class="shareLogo">🎾</div>
+
+        <div class="shareHeaderTesto">
+
+            <div class="shareTitolo">PADEL STATS</div>
+
+            <div class="shareSottotitolo">Match Summary</div>
+
+        </div>
+
+        <div id="shareBadge" class="shareBadge">
+            WIN
+        </div>
+
+    </div>
+
+    <div class="shareGiocatori">
+
+    <div id="shareGiocatore" class="shareGiocatore">
+        FABIO
+    </div>
+
+    <div id="shareCompagno" class="shareCompagnoCard">
+        Marco Rossi
+    </div>
+
+    <div class="shareVs">
+        VS
+    </div>
+
+    <div id="shareAvversari" class="shareAvversariCard">
+        Luca Bianchi<br>Paolo Verdi
+    </div>
+
+</div>
+
+<div class="shareRisultatoBox">
+
+    <div id="shareRisultato" class="shareRisultato">
+        6-4&nbsp;&nbsp;6-3
+    </div>
+
+</div>
+
+<div id="shareEsito" class="shareEsito">
+    🏆 VITTORIA
+</div>
+
+    <div class="shareBlocco">
+
+        <div class="shareVoce">
+            <span>🤝 Compagno</span>
+            <strong id="shareCompagno"></strong>
+        </div>
+
+        <div class="shareVoce">
+            <span>⚔️ Avversari</span>
+            <strong id="shareAvversari"></strong>
+        </div>
+
+        <div class="shareVoce">
+            <span>📍 Circolo</span>
+            <strong id="shareCircolo"></strong>
+        </div>
+
+        <div class="shareVoce">
+            <span>📅 Data</span>
+            <strong id="shareData"></strong>
+        </div>
+
+    </div>
+
+    <div class="shareFooter">
+        Padel Stats v2.2
+    </div>
+
+</div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script src="menu.js"></script>
+
+<script src="archivio.js"></script>
+
+<script src="partite.js"></script>
+
+<script src="giocatori.js"></script>
+
+<script src="attrezzatura.js"></script>
+
+<script src="statistiche.js"></script>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
