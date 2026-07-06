@@ -188,8 +188,8 @@ function mostraNuova(){
         return;
     }
 
-    document.getElementById("compagno").value =
-        localStorage.getItem("compagnoPreferito") || "";
+    document.getElementById("compagno").value = "";
+
 
     document.getElementById("racchetta").value =
     localStorage.getItem("racchettaDefault") || "";
@@ -695,6 +695,7 @@ if(document.getElementById("risultato").value.trim() === ""){
     };
 
     if(partitaInModifica==-1){
+
 
     partite.push(partita);
 
@@ -1953,7 +1954,9 @@ function aggiornaUltimePartite(){
 
     let html="";
 
-    let ultime = partite.slice(-10);
+    let ultime = partite
+    .filter(p => p.esito === "Vittoria" || p.esito === "Pareggio" || p.esito === "Sconfitta")
+    .slice(-10);
 
     ultime.forEach(function(p){
 
@@ -2331,15 +2334,17 @@ function aggiornaMigliorCircolo(){
 
 function aggiornaRendimento(){
 
-    if(partite.length==0){
+    let ultime = partite
+        .filter(partitaGiocata)
+        .slice(-10);
 
-        document.getElementById("rendimento").innerHTML="Nessuna partita.";
+    if(ultime.length === 0){
+
+        document.getElementById("rendimento").innerHTML = "Nessuna partita giocata.";
 
         return;
 
     }
-
-    let ultime = partite.slice(-10);
 
     let vinte = ultime.filter(p => p.esito=="Vittoria").length;
 
@@ -2384,6 +2389,7 @@ function aggiornaRendimento(){
 // ----------------------------
 
 document.getElementById("esportaDati").onclick = function(){
+
 
     let dati = JSON.stringify(partite,null,2);
 
@@ -2525,7 +2531,9 @@ function aggiornaForma(){
     const indice = document.getElementById("indiceForma");
     
 
-    let ultime = partite.slice(-10);
+    let ultime = partite
+    .filter(partitaGiocata)
+    .slice(-10);
 
     if(ultime.length===0){
 
@@ -2947,23 +2955,36 @@ function apriGiorno(data){
     partiteGiorno.forEach(function(partita,index){
     const indiceOriginale = partite.indexOf(partita);
 
-        let colore = "#C62828";
-        let icona = "❌";
+       let colore = "#1976D2";
+let icona = "📅";
+let testoEsito = "PROGRAMMATA";
 
-        if(partita.esito=="Vittoria"){
-            colore="#2E7D32";
-            icona="🏆";
-        }else if(partita.esito=="Pareggio"){
-            colore="#F9A825";
-            icona="🤝";
-        }
+if(partitaGiocata(partita)){
+
+    if(partita.esito=="Vittoria"){
+        colore = "#2E7D32";
+        icona = "🏆";
+        testoEsito = "Vittoria";
+
+    }else if(partita.esito=="Pareggio"){
+        colore = "#F9A825";
+        icona = "🤝";
+        testoEsito = "Pareggio";
+
+    }else{
+        colore = "#C62828";
+        icona = "❌";
+        testoEsito = "Sconfitta";
+    }
+
+}
 
         html += `
 
 <p class="esito"
 style="background:${colore};color:white;text-align:center;">
 
-${icona} ${partita.esito}
+${icona} ${testoEsito}
 
 </p>
 
@@ -4111,32 +4132,40 @@ function preparaCardCondivisione(partita){
     document.getElementById("shareRisultato").textContent =
         partita.risultato || "";
 
-  const esito = document.getElementById("shareEsito");
-const badge = document.getElementById("shareBadge");
+    const esito = document.getElementById("shareEsito");
+    const badge = document.getElementById("shareBadge");
 
-if(partita.esito === "Vittoria"){
+    if(partita.esito === "Vittoria"){
 
-    esito.textContent = "🏆 VITTORIA";
-    esito.style.color = "#3ddc84";
+        esito.textContent = "🏆 VITTORIA";
+        esito.style.color = "#3ddc84";
 
-    badge.textContent = "WIN";
-    badge.style.background = "#18b65b";
+        badge.textContent = "WIN";
+        badge.style.background = "#18b65b";
 
-}else{
+    }else{
 
-    esito.textContent = "❌ SCONFITTA";
-    esito.style.color = "#ff5c5c";
+        esito.textContent = "❌ SCONFITTA";
+        esito.style.color = "#ff5c5c";
 
-    badge.textContent = "LOSS";
-    badge.style.background = "#d63031";
+        badge.textContent = "LOSS";
+        badge.style.background = "#d63031";
 
-}
+    }
 
+    // Parte alta della card
     document.getElementById("shareCompagno").textContent =
         partita.compagno || "-";
 
     document.getElementById("shareAvversari").innerHTML =
-    (partita.avv1 || "-") + "<br>" + (partita.avv2 || "-");
+        (partita.avv1 || "-") + "<br>" + (partita.avv2 || "-");
+
+    // Riepilogo in basso
+    document.getElementById("shareCompagnoInfo").textContent =
+        partita.compagno || "-";
+
+    document.getElementById("shareAvversariInfo").innerHTML =
+        (partita.avv1 || "-") + "<br>" + (partita.avv2 || "-");
 
     document.getElementById("shareCircolo").textContent =
         partita.circolo || "-";
@@ -4144,14 +4173,13 @@ if(partita.esito === "Vittoria"){
     document.getElementById("shareData").textContent =
         partita.data || "";
 
-const nomeGiocatore =
-    localStorage.getItem("nomeGiocatore") || "Giocatore";
+    const nomeGiocatore =
+        localStorage.getItem("nomeGiocatore") || "Giocatore";
 
-document.getElementById("shareGiocatore").textContent =
-    nomeGiocatore;
+    document.getElementById("shareGiocatore").textContent =
+        nomeGiocatore;
 
 }
-
 async function testCardCondivisione(){
 
 
