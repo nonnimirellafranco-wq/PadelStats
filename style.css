@@ -757,7 +757,11 @@ header h1{
 
     height:70px;
 
-    width:auto;
+    max-width:210px;
+
+    width:100%;
+
+    object-fit:contain;
 
     display:block;
 
