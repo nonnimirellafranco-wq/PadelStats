@@ -23,6 +23,14 @@ body{
     color:#222;
 
 }
+
+html,
+body{
+
+    overflow-x:hidden;
+
+}
+
 /* HEADER */
 
 header{
@@ -119,14 +127,13 @@ nav button:hover{
 
 main{
 
-    width:95%;
+    width:100%;
 
     max-width:1200px;
 
     margin:auto;
 
-    padding:30px 30px 100px 30px;
-
+    padding:20px 16px 100px;
 
 }
 
