@@ -274,28 +274,30 @@
 
 <h2>Nuova partita</h2>
 
-<div class="card">
+<div class="card cardModalita">
 
     <h3>👥 Modalità di gioco</h3>
 
-    <label>
-        <input type="radio"
-               name="modalita"
-               value="standard"
-               checked
-               onchange="cambiaModalita()">
-        Standard
-    </label>
+    <div class="modalitaGioco">
 
-    &nbsp;&nbsp;&nbsp;
+        <label>
+            <input type="radio"
+                   name="modalita"
+                   value="standard"
+                   checked
+                   onchange="cambiaModalita()">
+            Standard
+        </label>
 
-    <label>
-        <input type="radio"
-               name="modalita"
-               value="singolo"
-               onchange="cambiaModalita()">
-        Singolo
-    </label>
+        <label>
+            <input type="radio"
+                   name="modalita"
+                   value="singolo"
+                   onchange="cambiaModalita()">
+            Singolo
+        </label>
+
+    </div>
 
 </div>
 
@@ -319,21 +321,17 @@
 
 </select>
 
-<label>🎾 Racchetta</label>
+<label>🏆 Tipo partita</label>
 
-<input type="text" id="racchetta" list="listaRacchette">
+<select id="tipoPartita">
 
-<datalist id="listaRacchette"></datalist>
+    <option value="Amichevole">🤝 Amichevole</option>
 
-<label>👟 Scarpe</label>
+    <option value="Competitiva">🏆 Competitiva</option>
 
-<input type="text" id="scarpe" list="listaScarpe">
+</select>
 
-<datalist id="listaScarpe"></datalist>
 
-<label>🎾 Palline</label>
-<input type="text" id="palline" list="listaPalline">
-<datalist id="listaPalline"></datalist>
 
 <div id="bloccoCompagno">
 
@@ -354,6 +352,8 @@
     <input type="text" id="avv2" list="listaGiocatori">
 
 </div>
+
+
 
 <datalist id="listaGiocatori"></datalist>
 
@@ -521,15 +521,23 @@ id="esito">
 
 </select>
 
-<label>🏆 Tipo partita</label>
+<label>🎾 Racchetta</label>
 
-<select id="tipoPartita">
+<input type="text" id="racchetta" list="listaRacchette">
 
-    <option value="Amichevole">🤝 Amichevole</option>
+<datalist id="listaRacchette"></datalist>
 
-    <option value="Competitiva">🏆 Competitiva</option>
+<label>👟 Scarpe</label>
 
-</select>
+<input type="text" id="scarpe" list="listaScarpe">
+
+<datalist id="listaScarpe"></datalist>
+
+<label>🎾 Palline</label>
+<input type="text" id="palline" list="listaPalline">
+<datalist id="listaPalline"></datalist>
+
+
 
 <label>Note</label>
 
