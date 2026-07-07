@@ -189,6 +189,8 @@ function mostraNuova(){
     }
 
     document.getElementById("compagno").value = "";
+    document.getElementById("avv1").value = "";
+    document.getElementById("avv2").value = "";
 
 
     document.getElementById("racchetta").value =
@@ -216,9 +218,9 @@ for(let i=0;i<3;i++){
 
     stelleTouch[i].textContent = "⭐";
 
-
-
 }
+
+aggiornaNomiSet();
 
 }
 
@@ -2902,23 +2904,59 @@ function cambiaModalita(){
     const modalita =
         document.querySelector('input[name="modalita"]:checked').value;
 
-   if(modalita=="singolo"){
+    if(modalita=="singolo"){
 
-    document.getElementById("bloccoCompagno").style.display="none";
-    document.getElementById("bloccoAvv2").style.display="none";
-    document.getElementById("labelAvv1").textContent="Avversario";
+        document.getElementById("bloccoCompagno").style.display="none";
+        document.getElementById("bloccoAvv2").style.display="none";
+        document.getElementById("labelAvv1").textContent="Avversario";
 
-}else{
+    }else{
 
-    document.getElementById("bloccoCompagno").style.display="block";
-    document.getElementById("bloccoAvv2").style.display="block";
-    document.getElementById("labelAvv1").textContent="Avversario 1";
+        document.getElementById("bloccoCompagno").style.display="block";
+        document.getElementById("bloccoAvv2").style.display="block";
+        document.getElementById("labelAvv1").textContent="Avversario 1";
+
+    }
+
+    aggiornaNomiSet();
 
 }
 
+function aggiornaNomiSet(){
+
+    const mioNome = localStorage.getItem("nomeGiocatore") || "";
+
+    const compagno = document.getElementById("compagno").value.trim();
+    const avv1 = document.getElementById("avv1").value.trim();
+    const avv2 = document.getElementById("avv2").value.trim();
+
+    const singolo =
+        document.querySelector('input[name="modalita"]:checked').value=="singolo";
+
+    let noi = mioNome;
+
+   if(!singolo && compagno){
+    noi += "\n" + compagno;
 }
 
-let setVisibili = 3;
+    let loro = "";
+
+    if(avv1){
+        loro = avv1;
+    }
+
+   if(!singolo && avv2){
+    loro += "\n" + avv2;
+}
+
+    for(let i=1;i<=5;i++){
+
+        document.getElementById("labelNoi"+i).textContent = noi;
+        document.getElementById("labelLoro"+i).textContent = loro;
+
+    }
+
+}
 
 function aggiungiSet(){
 
