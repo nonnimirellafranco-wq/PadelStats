@@ -2269,11 +2269,11 @@ function creaStatAttrezzatura(campo,titolo){
 
     });
 
-    let html="";
+   let html="";
 
-    if(migliore){
+if(migliore){
 
-        html+=`
+    html+=`
 
 <h3>${titolo}</h3>
 
@@ -2289,9 +2289,23 @@ function creaStatAttrezzatura(campo,titolo){
 
 `;
 
-    }
+}else{
 
-    document.getElementById("statAttrezzatura").innerHTML += html;
+    html+=`
+
+<h3>${titolo}</h3>
+
+<p>Servono almeno <b>3 partite</b></p>
+
+<p>con la stessa attrezzatura.</p>
+
+<hr>
+
+`;
+
+}
+
+document.getElementById("statAttrezzatura").innerHTML += html;
 
 }
 
