@@ -141,15 +141,26 @@ main{
 
 .dashboard{
 
-    display:grid;
+    display:flex;
 
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    justify-content:space-between;
 
-    gap:15px;
+    align-items:center;
 
-    margin-bottom:25px;
+    gap:8px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:14px 10px;
+
+    margin-bottom:18px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
 
 }
+
 /* CARD */
 
 .card{
@@ -351,35 +362,39 @@ header h1{
 
 .statCard{
 
+    flex:1;
+
+    background:transparent;
+
+    border:none;
+
+    box-shadow:none;
+
+    padding:0;
+
+    min-height:auto;
+
     display:flex;
 
     flex-direction:column;
 
-    justify-content:center;
-
     align-items:center;
 
-    min-height:135px;
-
-    padding:18px 10px;
-
-    border-radius:20px;
-
-    background:linear-gradient(180deg,#ffffff,#f8f9fa);
+    justify-content:center;
 
 }
 
 .statIcon{
 
-    font-size:36px;
+    font-size:26px;
 
-    margin-bottom:10px;
+    margin-bottom:4px;
 
 }
 
 .statCard h2{
 
-    font-size:38px;
+    font-size:24px;
 
     font-weight:700;
 
@@ -391,22 +406,9 @@ header h1{
 
 .statCard span{
 
-    display:block;
-
-    margin-top:8px;
-
-    font-size:13px;
-
-    font-weight:600;
-
-    color:#777;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
+    display:none;
 
 }
-
 
 /* ==============================
    ULTIMA PARTITA
@@ -2182,13 +2184,19 @@ input[type=number]{
 
     color:var(--primary);
 
-    padding:8px 14px;
+    padding:6px 10px;
 
-    border-radius:25px;
+    min-width:42px;
+
+    height:34px;
+
+    border-radius:18px;
 
     cursor:pointer;
 
-    font-weight:600;
+    font-size:14px;
+
+    font-weight:700;
 
     transition:.2s;
 
@@ -2774,5 +2782,13 @@ body.temaScuro textarea{
     background:var(--primary-hover);
 
     transform:translateY(-2px);
+
+}
+
+.statCard:hover{
+
+    transform:none;
+
+    box-shadow:none;
 
 }
