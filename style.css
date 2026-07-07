@@ -1548,19 +1548,15 @@ input[type=number]{
 .cardStatistica{
 
     text-align:center;
-
     cursor:pointer;
-
     transition:.25s;
 
-    min-height:170px;
+    min-height:125px;
+    padding:12px 8px;
 
     display:flex;
-
     flex-direction:column;
-
     justify-content:center;
-
     align-items:center;
 
 }
@@ -1575,9 +1571,9 @@ input[type=number]{
 
 .iconaStat{
 
-    font-size:40px;
+    font-size:32px;
 
-    margin-bottom:8px;
+    margin-bottom:4px;
 
 }
 
@@ -1587,17 +1583,15 @@ input[type=number]{
 
     color:var(--primary);
 
-    font-size:22px;
+    font-size:18px;
+
+    line-height:1.15;
 
 }
 
 .cardStatistica p{
 
-    margin-top:15px;
-
-    color:#777;
-
-    font-size:15px;
+    display:none;
 
 }
 
