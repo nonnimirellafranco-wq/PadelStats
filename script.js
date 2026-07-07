@@ -686,6 +686,20 @@ if(document.getElementById("risultato").value.trim() === ""){
         compagno: document.getElementById("compagno").value,
         avv1: document.getElementById("avv1").value,
         avv2: document.getElementById("avv2").value,
+        io1: document.getElementById("io1").value,
+        avvSet1: document.getElementById("avvSet1").value,
+
+        io2: document.getElementById("io2").value,
+        avvSet2: document.getElementById("avvSet2").value,
+
+        io3: document.getElementById("io3").value,
+        avvSet3: document.getElementById("avvSet3").value,
+
+        io4: document.getElementById("io4").value,
+        avvSet4: document.getElementById("avvSet4").value,
+
+        io5: document.getElementById("io5").value,
+        avvSet5: document.getElementById("avvSet5").value,
         risultato: document.getElementById("risultato").value,
         esito: document.getElementById("esito").value,
         stelle: document.getElementById("stelle").value,
@@ -984,6 +998,8 @@ function aggiornaCarouselPartite(){
 
     ultime.forEach(function(p){
 
+const indiceOriginale = partite.indexOf(p);
+
         let colore = "#C62828";
         let icona = "❌";
 
@@ -1031,18 +1047,27 @@ function aggiornaCarouselPartite(){
 
     <hr>
 
-    <div class="footerPartita">
+  <div class="footerPartita">
 
-        <div class="circolo">
-            🏟 ${p.circolo}
-        </div>
+    <div class="circolo">
+        🏟 ${p.circolo}
+    </div>
 
-        <div class="attrezzatura">
-            🎾 ${p.racchetta || "-"} &nbsp;&nbsp;
-            👟 ${p.scarpe || "-"}
-        </div>
+    <div class="attrezzatura">
+        🎾 ${p.racchetta || "-"} &nbsp;&nbsp;
+        👟 ${p.scarpe || "-"}
+    </div>
+
+    <div class="azioniPartita">
+
+        <button class="btnIcona"
+                onclick="condividiPartita(${indiceOriginale})">
+            📤
+        </button>
 
     </div>
+
+</div>
 
 </div>
 
@@ -1074,6 +1099,31 @@ function modificaPartita(indice){
 
     const p = partite[indice];
 
+
+    // Memorizza la schermata di provenienza
+    if(agenda.style.display=="block"){
+
+        schermataPrecedente = "agenda";
+
+    }else if(archivio.style.display=="block"){
+
+        schermataPrecedente = "archivio";
+
+    }else{
+
+        schermataPrecedente = "home";
+
+    }
+
+    // IMPORTANTE: imposto subito la modifica
+    partitaInModifica = indice;
+
+    // Apro la schermata
+    mostraNuova();
+
+    // -----------------------------
+    // Dati generali
+    // -----------------------------
     document.getElementById("data").value = p.data;
     document.getElementById("circolo").value = p.circolo;
     document.getElementById("campo").value = p.campo;
@@ -1082,39 +1132,83 @@ function modificaPartita(indice){
     document.getElementById("compagno").value = p.compagno;
     document.getElementById("avv1").value = p.avv1;
     document.getElementById("avv2").value = p.avv2;
-    document.getElementById("risultato").value = p.risultato;
-    document.getElementById("esito").value = p.esito;
-    document.getElementById("tipoPartita").value =
-    p.tipoPartita || "Amichevole";
-    document.getElementById("stelle").value = p.stelle || "3";
-    document.getElementById("note").value = p.note;
 
-    // Aggiorna le stelle touch
-    stelleTouch.forEach(s => s.textContent = "☆");
+    // -----------------------------
+    // Set
+    // -----------------------------
+    document.getElementById("io1").value = p.io1 || "";
 
-    for(let i = 0; i < Number(p.stelle || 3); i++){
-        stelleTouch[i].textContent = "⭐";
+    document.getElementById("avvSet1").value = p.avvSet1 || "";
+
+    document.getElementById("io2").value = p.io2 || "";
+    document.getElementById("avvSet2").value = p.avvSet2 || "";
+
+    document.getElementById("io3").value = p.io3 || "";
+    document.getElementById("avvSet3").value = p.avvSet3 || "";
+
+    document.getElementById("io4").value = p.io4 || "";
+    document.getElementById("avvSet4").value = p.avvSet4 || "";
+
+    document.getElementById("io5").value = p.io5 || "";
+    document.getElementById("avvSet5").value = p.avvSet5 || "";
+
+    // -----------------------------
+    // Mostra i set necessari
+    // -----------------------------
+    setVisibili = 3;
+
+    document.getElementById("set4").style.display = "none";
+    document.getElementById("set5").style.display = "none";
+
+    document.getElementById("btnAggiungiSet").style.display = "block";
+    document.getElementById("btnAggiungiSet").innerHTML = "➕ Aggiungi 4° set";
+
+    if(p.io4 || p.avvSet4){
+
+        document.getElementById("set4").style.display = "block";
+        setVisibili = 4;
+
+        document.getElementById("btnAggiungiSet").innerHTML =
+        "➕ Aggiungi 5° set";
+
     }
 
-    partitaInModifica = indice;
+    if(p.io5 || p.avvSet5){
 
-    if(agenda.style.display=="block"){
+        document.getElementById("set4").style.display = "block";
+        document.getElementById("set5").style.display = "block";
 
-    schermataPrecedente = "agenda";
+        setVisibili = 5;
 
-}else if(archivio.style.display=="block"){
+        document.getElementById("btnAggiungiSet").style.display = "none";
 
-    schermataPrecedente = "archivio";
+    }
 
-}else{
+    // -----------------------------
+    // Aggiorna risultato ed esito
+    // -----------------------------
+    aggiornaRisultato();
 
-    schermataPrecedente = "home";
+    // -----------------------------
+    // Stelle
+    // -----------------------------
+    document.getElementById("stelle").value = p.stelle || "3";
+
+    stelleTouch.forEach(s => s.textContent = "☆");
+
+    for(let i=0; i<Number(p.stelle || 3); i++){
+
+        stelleTouch[i].textContent = "⭐";
+
+    }
+
+    document.getElementById("tipoPartita").value =
+        p.tipoPartita || "Amichevole";
+
+    document.getElementById("note").value = p.note;
 
 }
 
-    mostraNuova();
-
-}
 // ----------------------------
 // ELIMINA PARTITA
 // ----------------------------
