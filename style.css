@@ -1245,32 +1245,35 @@ header h1{
 .grigliaStatistiche{
 
     display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
-
-    gap:16px;
-
-    align-items:start;
-
-    margin-top:16px;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    align-items:stretch;
 
 }
 
 .grigliaStatistiche .card{
 
-    margin:0;
+    padding:14px 10px;
 
-    padding:12px 14px;
+    min-height:150px;
 
-    transition:.25s;
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
 
 }
 
 .grigliaStatistiche .card h2{
 
-    font-size:20px;
+    font-size:17px;
 
-    margin:0 0 8px;
+    margin:6px 0;
 
     font-weight:700;
 
@@ -1278,17 +1281,17 @@ header h1{
 
     border-bottom:1px solid #E8EEF5;
 
-    padding-bottom:8px;
+    padding-bottom:6px;
 
 }
 
 .grigliaStatistiche .card p{
 
-    margin:4px 0;
+    margin:2px 0;
 
-    font-size:15px;
+    font-size:14px;
 
-    line-height:1.35;
+    line-height:1.25;
 
 }
 
@@ -1572,9 +1575,9 @@ input[type=number]{
 
 .iconaStat{
 
-    font-size:44px;
+    font-size:40px;
 
-    margin-bottom:15px;
+    margin-bottom:8px;
 
 }
 
