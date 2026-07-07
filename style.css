@@ -153,7 +153,7 @@ main{
 
     border-radius:18px;
 
-    padding:14px 10px;
+    padding:10px 10px;
 
     margin-bottom:18px;
 
@@ -386,7 +386,7 @@ header h1{
 
 .statIcon{
 
-    font-size:26px;
+       font-size:24px;
 
     margin-bottom:4px;
 
@@ -394,7 +394,7 @@ header h1{
 
 .statCard h2{
 
-    font-size:24px;
+    font-size:22px;
 
     font-weight:700;
 
@@ -1131,8 +1131,6 @@ header h1{
 
     text-align:center;
 
-    height:100%;
-
     margin:0;
 
     display:flex;
@@ -1143,10 +1141,9 @@ header h1{
 
     align-items:center;
 
-    padding:22px;
+    padding:14px 18px;
 
 }
-
 .statoFormaCard h2{
 
     font-size:24px;
@@ -1717,29 +1714,6 @@ input[type=number]{
 
 /* HOME */
 
-.welcomeHome{
-
-    margin-bottom:25px;
-
-}
-
-.welcomeHome h2{
-
-    font-size:34px;
-
-    color:var(--primary);
-
-    margin-bottom:8px;
-
-}
-
-.welcomeHome p{
-
-    color:#666;
-
-    font-size:18px;
-
-}
 
 .homeBottom{
 
@@ -2166,13 +2140,15 @@ input[type=number]{
 
     display:flex;
 
-    gap:8px;
-
     justify-content:center;
 
-    flex-wrap:wrap;
+    align-items:center;
 
-    margin-bottom:20px;
+    gap:6px;
+
+    flex-wrap:nowrap;
+
+    margin:16px 0 18px;
 
 }
 
@@ -2180,17 +2156,17 @@ input[type=number]{
 
     border:none;
 
-    background:var(--surface-2);
+    background:transparent;
 
     color:var(--primary);
 
-    padding:6px 10px;
+    padding:4px 8px;
 
-    min-width:42px;
+    min-width:36px;
 
-    height:34px;
+    height:30px;
 
-    border-radius:18px;
+    border-radius:16px;
 
     cursor:pointer;
 
@@ -2201,7 +2177,6 @@ input[type=number]{
     transition:.2s;
 
 }
-
 .periodo:hover{
 
     background:color-mix(in srgb, var(--primary) 20%, white);
@@ -2229,6 +2204,8 @@ input[type=number]{
 .ultimePartiteHome h2{
 
     color:var(--primary);
+
+    font-size:22px;
 
     margin-bottom:15px;
 
@@ -2790,5 +2767,11 @@ body.temaScuro textarea{
     transform:none;
 
     box-shadow:none;
+
+}
+
+#graficoForma{
+
+    display:none;
 
 }
