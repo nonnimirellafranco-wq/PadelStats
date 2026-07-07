@@ -1443,11 +1443,15 @@ header h1{
 
 .rigaSet span{
 
-    width:90px;
+    width:110px;
 
     font-weight:600;
 
-    font-size:17px;
+    font-size:16px;
+
+    white-space:pre-line;
+
+    line-height:1.15;
 
 }
 
