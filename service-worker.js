@@ -1,4 +1,4 @@
-const CACHE_NAME = "padelstats-v2.4.0";
+const CACHE_NAME = "padelstats-v2.4.2";
 
 const ASSETS = [
     "./",
@@ -58,10 +58,19 @@ self.addEventListener("fetch", event => {
 
     event.respondWith(
 
-        caches.match(event.request)
+        fetch(event.request)
             .then(response => {
-                return response || fetch(event.request);
+
+                const copia = response.clone();
+
+                caches.open(CACHE_NAME).then(cache => {
+                    cache.put(event.request, copia);
+                });
+
+                return response;
+
             })
+            .catch(() => caches.match(event.request))
 
     );
 
