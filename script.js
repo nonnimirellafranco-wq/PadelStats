@@ -458,9 +458,8 @@ mesi.forEach(function(chiave){
 
 elenco
 .slice()
-.reverse()
+.sort((a, b) => b.partita.data.localeCompare(a.partita.data))
 .forEach(function(item){
-
     const p = item.partita;
 
     let testo = (
@@ -571,93 +570,9 @@ if(aperto){
 });
 
 document.getElementById("listaPartite").innerHTML = html;
-return;
 
-let meseCorrenteArchivio = "";
-
-
-    if (partite.length === 0) {
-        html = "<p>Nessuna partita registrata.</p>";
-    } else {
-
-        for(let index = partite.length - 1; index >= 0; index--){
-
-    const p = partite[index];
-
-const mesi = [
-    "Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno",
-    "Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"
-];
-
-const anno = p.data.substring(0,4);
-const meseNumero = Number(p.data.substring(5,7));
-const mese = anno + "-" + meseNumero;
-
-if(mese != meseCorrenteArchivio){
-
-    meseCorrenteArchivio = mese;
-
-    html += `
-        <div class="titoloMeseArchivio">
-
-            📅 ${mesi[meseNumero-1]} ${anno}
-
-        </div>
-    `;
-}
-
-let testo = (
-
-    p.compagno + " " +
-    p.avv1 + " " +
-    p.avv2 + " " +
-    p.circolo
-
-).toLowerCase();
-
-if(!testo.includes(filtro))
-    continue;
-            html += `
-                <div class="card">
-                    <h3>Partita ${index + 1}</h3>
-
-                    <p><b>Data:</b> ${p.data}</p>
-                    <p><b>Circolo:</b> ${p.circolo}</p>
-                    <p><b>Campo:</b> ${p.campo}</p>
-                    <p><b>🎾 Racchetta:</b> ${p.racchetta || "-"}</p>
-
-                    <p><b>👟 Scarpe:</b> ${p.scarpe || "-"}</p>
-                    <p><b>🎾 Palline:</b> ${p.palline || "-"}</p>
-                    <p><b>Compagno:</b> ${p.compagno}</p>
-                    <p><b>Avversari:</b> ${p.avv1} - ${p.avv2}</p>
-                    <p><b>Risultato:</b> ${p.risultato}</p>
-                    <p><b>Esito:</b> ${p.esito}</p>
-                    <p><b>⭐ Prestazione:</b> ${mostraStelle(p.stelle)}</p>
-
-<br><br>
-
-<button onclick="eliminaPartita(${index})">
-
-🗑 Elimina
-
-</button>
-
-<button onclick="modificaPartita(${index})">
-
-✏️ Modifica
-
-</button>
-                </div>
-            `;
-
-        }
-
-    }
-
-    document.getElementById("listaPartite").innerHTML = html;
 
 }
-
 // ----------------------------
 // SALVA PARTITA
 // ----------------------------
@@ -759,7 +674,12 @@ function aggiornaUltimaPartita() {
 
     if(!box) return;
 
-    if (partite.length === 0) {
+    const giocate = partite
+        .filter(partitaGiocata)
+        .slice()
+        .sort((a,b)=>b.data.localeCompare(a.data));
+
+    if(giocate.length===0){
 
         box.innerHTML = "Nessuna partita registrata";
 
@@ -767,27 +687,29 @@ function aggiornaUltimaPartita() {
 
     }
 
-    const p = partite[partite.length - 1];
-let colore;
-let icona;
+    const p = giocate[0];
 
-if(p.esito == "Vittoria"){
+    let colore;
+    let icona;
 
-    colore = "#2E7D32";
-    icona = "🏆";
+    if(p.esito=="Vittoria"){
 
-}else if(p.esito == "Pareggio"){
+        colore="#2E7D32";
+        icona="🏆";
 
-    colore = "#F9A825";
-    icona = "🤝";
+    }else if(p.esito=="Pareggio"){
 
-}else{
+        colore="#F9A825";
+        icona="🤝";
 
-    colore = "#C62828";
-    icona = "❌";
+    }else{
 
-}
-   box.innerHTML = `
+        colore="#C62828";
+        icona="❌";
+
+    }
+
+    box.innerHTML = `
 
 <p class="dataUltima">
 
@@ -832,7 +754,6 @@ if(p.esito == "Vittoria"){
 
 </p>
 
-
 <p class="stelleUltima">
 
     ${mostraStelle(p.stelle)}
@@ -843,24 +764,23 @@ if(p.esito == "Vittoria"){
 
 <div class="footerPartita">
 
+    ${p.circolo ? `
     <div class="circolo">
-
         🏟 ${p.circolo}
-
     </div>
+    ` : ""}
 
+    ${(p.racchetta || p.scarpe) ? `
     <div class="attrezzatura">
-
-        🎾 ${p.racchetta || "-"} &nbsp;&nbsp;&nbsp;
-
-        👟 ${p.scarpe || "-"}
-
+        ${p.racchetta ? `🎾 ${p.racchetta}` : ""}
+        ${p.racchetta && p.scarpe ? "&nbsp;&nbsp;&nbsp;" : ""}
+        ${p.scarpe ? `👟 ${p.scarpe}` : ""}
     </div>
+    ` : ""}
 
 </div>
 
 `;
-
 
 }
 
@@ -979,10 +899,11 @@ function aggiornaCarouselPartite(){
 
     if(!box) return;
 
-    const ultime = partite
+   const ultime = partite
     .filter(partitaGiocata)
-    .slice(-3)
-    .reverse();
+    .slice()
+    .sort((a, b) => b.data.localeCompare(a.data))
+    .slice(0, 3);
 
     if(ultime.length===0){
 
@@ -1049,15 +970,24 @@ const indiceOriginale = partite.indexOf(p);
 
     <hr>
 
-  <div class="footerPartita">
+ <div class="footerPartita">
 
+    <div>
+
+       ${p.circolo ? `
     <div class="circolo">
         🏟 ${p.circolo}
     </div>
+` : ""}
 
+${(p.racchetta || p.scarpe) ? `
     <div class="attrezzatura">
-        🎾 ${p.racchetta || "-"} &nbsp;&nbsp;
-        👟 ${p.scarpe || "-"}
+        ${p.racchetta ? `🎾 ${p.racchetta}` : ""}
+        ${p.racchetta && p.scarpe ? "&nbsp;&nbsp;" : ""}
+        ${p.scarpe ? `👟 ${p.scarpe}` : ""}
+    </div>
+` : ""}
+
     </div>
 
     <div class="azioniPartita">
@@ -2050,9 +1980,12 @@ function aggiornaUltimePartite(){
 
     let html="";
 
-    let ultime = partite
+   let ultime = partite
     .filter(p => p.esito === "Vittoria" || p.esito === "Pareggio" || p.esito === "Sconfitta")
-    .slice(-10);
+    .slice()
+    .sort((a,b) => b.data.localeCompare(a.data))
+    .slice(0,10)
+    .reverse();
 
     ultime.forEach(function(p){
 
@@ -2445,8 +2378,11 @@ function aggiornaMigliorCircolo(){
 function aggiornaRendimento(){
 
     let ultime = partite
-        .filter(partitaGiocata)
-        .slice(-10);
+    .filter(partitaGiocata)
+    .slice()
+    .sort((a, b) => b.data.localeCompare(a.data))
+    .slice(0, 10)
+    .reverse();
 
     if(ultime.length === 0){
 
@@ -2643,7 +2579,10 @@ function aggiornaForma(){
 
     let ultime = partite
     .filter(partitaGiocata)
-    .slice(-10);
+    .slice()
+    .sort((a, b) => b.data.localeCompare(a.data))
+    .slice(0, 10)
+    .reverse();
 
     if(ultime.length===0){
 
@@ -3172,17 +3111,25 @@ ${mostraStelle(partita.stelle)}
 
 <div class="footerPartita">
 
-    <div class="circolo">
-        🏟 ${partita.circolo}
-    </div>
+    <div>
 
-    <div class="attrezzatura">
-        🎾 ${partita.racchetta || "-"} &nbsp;&nbsp;
-        👟 ${partita.scarpe || "-"}
+        ${partita.circolo ? `
+        <div class="circolo">
+            🏟 ${partita.circolo}
+        </div>
+        ` : ""}
+
+        ${(partita.racchetta || partita.scarpe) ? `
+        <div class="attrezzatura">
+            ${partita.racchetta ? `🎾 ${partita.racchetta}` : ""}
+            ${partita.racchetta && partita.scarpe ? "&nbsp;&nbsp;" : ""}
+            ${partita.scarpe ? `👟 ${partita.scarpe}` : ""}
+        </div>
+        ` : ""}
+
     </div>
 
     <div class="azioniPartita">
-
         <button class="btnIcona"
                 onclick="modificaPartita(${indiceOriginale})">
             ✏️
@@ -4330,7 +4277,12 @@ async function testCardCondivisione(){
 
 
 
-    const partita = partite[partite.length - 1];
+    const giocate = partite
+    .filter(partitaGiocata)
+    .slice()
+    .sort((a, b) => b.data.localeCompare(a.data));
+
+const partita = giocate[0];
 
     if(!partita){
 
