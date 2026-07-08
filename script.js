@@ -131,6 +131,28 @@ function mostraHome(){
 
 }
 
+function tornaIndietro(){
+
+    partitaInModifica = -1;
+
+    switch(schermataPrecedente){
+
+        case "agenda":
+            mostraAgenda();
+            break;
+
+        case "archivio":
+            mostraArchivio();
+            break;
+
+        default:
+            mostraHome();
+            break;
+
+    }
+
+}
+
 function mostraAgenda(){
 
     nascondiSezioni();
@@ -182,6 +204,18 @@ function mostraNuova(){
     nascondiSezioni();
 
     nuovaPartita.style.display = "block";
+
+const titolo = document.getElementById("titoloNuovaPartita");
+
+if(partitaInModifica !== -1){
+
+    titolo.textContent = "Modifica partita";
+
+}else{
+
+    titolo.textContent = "Nuova partita";
+
+}
 
     // Se sto modificando una partita, NON caricare i preferiti
     if(partitaInModifica !== -1){
@@ -295,7 +329,14 @@ function mostraArchivio(){
 // ----------------------------
 
 btnHome.onclick = mostraHome;
-btnNuova.onclick = mostraNuova;
+btnNuova.onclick = function(){
+
+    schermataPrecedente = "home";
+    partitaInModifica = -1;
+
+    mostraNuova();
+
+};
 
 if(btnArchivio)
     btnArchivio.onclick = mostraArchivio;
@@ -816,17 +857,21 @@ function aggiornaProssimaPartita(){
         String(oggi.getMonth()+1).padStart(2,"0") + "-" +
         String(oggi.getDate()).padStart(2,"0");
 
- const future = partite
-    .filter(p =>
-        !partitaGiocata(p) &&
-        p.data >= oggiStringa &&
-        (
-            (p.compagno || "").trim() !== "" ||
-            (p.avv1 || "").trim() !== "" ||
-            (p.avv2 || "").trim() !== ""
+    const future = partite
+        .map((p, indice) => ({
+            partita: p,
+            indice: indice
+        }))
+        .filter(item =>
+            !partitaGiocata(item.partita) &&
+            item.partita.data >= oggiStringa &&
+            (
+                (item.partita.compagno || "").trim() !== "" ||
+                (item.partita.avv1 || "").trim() !== "" ||
+                (item.partita.avv2 || "").trim() !== ""
+            )
         )
-    )
-    .sort((a,b)=>a.data.localeCompare(b.data));
+        .sort((a,b)=>a.partita.data.localeCompare(b.partita.data));
 
     if(future.length===0){
 
@@ -844,52 +889,58 @@ function aggiornaProssimaPartita(){
 
     }
 
-    const p = future[0];
+    const p = future[0].partita;
+    const indiceOriginale = future[0].indice;
 
-   box.innerHTML = `
+    box.innerHTML = `
 
-<div class="schedaProssima">
+<div class="schedaProssima"
+     onclick="modificaPartita(${indiceOriginale})"
+     style="cursor:pointer;">
 
-   <div class="dataProssima">
+    <div class="dataProssima">
 
-    📅 <b>${formattaDataBreve(p.data)}</b>
-
-</div>
-
-<div class="sfidaProssima">
-
-    <div class="squadra">
-
-        <b>${localStorage.getItem("nomeGiocatore") || "Io"}</b><br>
-        <b>${p.compagno}</b>
+        📅 <b>${formattaDataBreve(p.data)}</b>
 
     </div>
 
-    <div class="vs">
+    <div class="sfidaProssima">
 
-        VS
+        <div class="squadra">
+
+            <b>${localStorage.getItem("nomeGiocatore") || "Io"}</b><br>
+            <b>${p.compagno}</b>
+
+        </div>
+
+        <div class="vs">
+
+            VS
+
+        </div>
+
+        <div class="squadra">
+
+            <b>${p.avv1}</b><br>
+            <b>${p.avv2}</b>
+
+        </div>
 
     </div>
 
-    <div class="squadra">
+    ${p.circolo ? `
+    <div class="circoloProssima">
 
-        <b>${p.avv1}</b><br>
-        <b>${p.avv2}</b>
+        🏟 ${p.circolo}
 
     </div>
-
-</div>
-
-<div class="circoloProssima">
-
-    🏟 ${p.circolo}
+    ` : ""}
 
 </div>
 
 `;
 
 }
-
 function aggiornaCarouselPartite(){
 
     const box = document.getElementById("carouselPartite");
@@ -3024,6 +3075,8 @@ function apriGiorno(data){
 
     if(partiteGiorno.length==0){
 
+        schermataPrecedente = "agenda";
+
         mostraNuova();
 
         document.getElementById("data").value = data;
@@ -4222,57 +4275,59 @@ if(btnCondividi){
 
 function preparaCardCondivisione(partita){
 
-    document.getElementById("shareRisultato").textContent =
-        partita.risultato || "";
+   document.getElementById("shareData").textContent =
+    "📅 " + (partita.data || "");
 
     const esito = document.getElementById("shareEsito");
-    const badge = document.getElementById("shareBadge");
 
     if(partita.esito === "Vittoria"){
 
         esito.textContent = "🏆 VITTORIA";
-        esito.style.color = "#3ddc84";
+        esito.style.background = "#2E7D32";
 
-        badge.textContent = "WIN";
-        badge.style.background = "#18b65b";
+    }else if(partita.esito === "Pareggio"){
+
+        esito.textContent = "🤝 PAREGGIO";
+        esito.style.background = "#F9A825";
 
     }else{
 
         esito.textContent = "❌ SCONFITTA";
-        esito.style.color = "#ff5c5c";
-
-        badge.textContent = "LOSS";
-        badge.style.background = "#d63031";
+        esito.style.background = "#C62828";
 
     }
 
-    // Parte alta della card
-    document.getElementById("shareCompagno").textContent =
-        partita.compagno || "-";
-
-    document.getElementById("shareAvversari").innerHTML =
-        (partita.avv1 || "-") + "<br>" + (partita.avv2 || "-");
-
-    // Riepilogo in basso
-    document.getElementById("shareCompagnoInfo").textContent =
-        partita.compagno || "-";
-
-    document.getElementById("shareAvversariInfo").innerHTML =
-        (partita.avv1 || "-") + "<br>" + (partita.avv2 || "-");
-
-    document.getElementById("shareCircolo").textContent =
-        partita.circolo || "-";
-
-    document.getElementById("shareData").textContent =
-        partita.data || "";
-
-    const nomeGiocatore =
+    document.getElementById("shareGiocatore").textContent =
         localStorage.getItem("nomeGiocatore") || "Giocatore";
 
-    document.getElementById("shareGiocatore").textContent =
-        nomeGiocatore;
+    document.getElementById("shareCompagno").textContent =
+        partita.compagno || "";
+
+    document.getElementById("shareAvv1").textContent =
+        partita.avv1 || "";
+
+    document.getElementById("shareAvv2").textContent =
+        partita.avv2 || "";
+
+    document.getElementById("shareRisultato").textContent =
+        partita.risultato || "";
+
+    const boxCircolo = document.getElementById("shareCircoloBox");
+
+    if(partita.circolo){
+
+        boxCircolo.style.display = "block";
+        document.getElementById("shareCircolo").textContent =
+            partita.circolo;
+
+    }else{
+
+        boxCircolo.style.display = "none";
+
+    }
 
 }
+
 async function testCardCondivisione(){
 
 

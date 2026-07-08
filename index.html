@@ -272,8 +272,19 @@
 
 <section id="nuovaPartita" style="display:none;">
 
-<h2>Nuova partita</h2>
+<div class="headerNuovaPartita">
 
+    <button id="btnIndietro"
+            class="btnIndietro"
+            onclick="tornaIndietro()">
+        ←
+    </button>
+
+    <h2 id="titoloNuovaPartita">
+        Nuova partita
+    </h2>
+
+</div>
 <div class="card cardModalita">
 
     <h3>👥 Modalità di gioco</h3>
@@ -572,7 +583,16 @@ id="esito">
 
 <section id="archivio" style="display:none;">
 
-<h2>Archivio</h2>
+<div class="headerPagina">
+
+    <button class="btnIndietro"
+            onclick="tornaIndietro()">
+        ←
+    </button>
+
+    <h2>Archivio</h2>
+
+</div>
 
 <input
     type="text"
@@ -1042,86 +1062,61 @@ id="esito">
 
 <div id="shareCard" class="shareCard">
 
-    <div class="shareHeader">
+    <div class="shareData" id="shareData">
+        📅 08/07/2026
+    </div>
 
-        <div class="shareLogo">🎾</div>
+    <div id="shareEsito" class="shareEsito">
+        🏆 VITTORIA
+    </div>
 
-        <div class="shareHeaderTesto">
+    <div class="shareSfida">
 
-            <div class="shareTitolo">PADEL STATS</div>
+        <div class="shareSquadra">
 
-            <div class="shareSottotitolo">Match Summary</div>
+            <b id="shareGiocatore">FABIO</b><br>
+            <b id="shareCompagno">MARCO</b>
 
         </div>
 
-        <div id="shareBadge" class="shareBadge">
-            WIN
+        <div class="shareVs">
+
+            VS
+
+        </div>
+
+        <div class="shareSquadra">
+
+            <b id="shareAvv1">LUCA</b><br>
+            <b id="shareAvv2">PAOLO</b>
+
         </div>
 
     </div>
-
-    <div class="shareGiocatori">
-
-    <div id="shareGiocatore" class="shareGiocatore">
-        FABIO
-    </div>
-
-    <div id="shareCompagno" class="shareCompagnoCard">
-        Marco Rossi
-    </div>
-
-    <div class="shareVs">
-        VS
-    </div>
-
-    <div id="shareAvversari" class="shareAvversariCard">
-        Luca Bianchi<br>Paolo Verdi
-    </div>
-
-</div>
-
-<div class="shareRisultatoBox">
 
     <div id="shareRisultato" class="shareRisultato">
-        6-4&nbsp;&nbsp;6-3
+
+        6-4 6-3
+
     </div>
 
-</div>
+ 
 
-<div id="shareEsito" class="shareEsito">
-    🏆 VITTORIA
-</div>
+    <div id="shareCircoloBox" class="shareCircolo">
 
-    <div class="shareBlocco">
-
-       <div class="shareVoce">
-    <span>🤝 Compagno</span>
-    <strong id="shareCompagnoInfo"></strong>
-</div>
-
-<div class="shareVoce">
-    <span>⚔️ Avversari</span>
-    <strong id="shareAvversariInfo"></strong>
-</div>
-
-        <div class="shareVoce">
-            <span>📍 Circolo</span>
-            <strong id="shareCircolo"></strong>
-        </div>
-
-        <div class="shareVoce">
-            <span>📅 Data</span>
-            <strong id="shareData"></strong>
-        </div>
+        🏟 <span id="shareCircolo"></span>
 
     </div>
 
     <div class="shareFooter">
-        Padel Stats v2.2
+
+    <div class="shareBrand">
+        🎾 PADEL STATS
     </div>
 
 </div>
 
+</div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
