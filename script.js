@@ -3848,7 +3848,7 @@ document.getElementById("btnApplicaPeriodo").onclick = function(){
         String(dataFinePeriodo.getMonth()+1).padStart(2,"0") + "/" +
         String(dataFinePeriodo.getFullYear()).slice(-2);
 
-    btnPeriodo.innerHTML = "📅 " + dataDa + " - " + dataA;
+    btnPeriodo.innerHTML = "📅 " + dataDa.substring(0,5) + "–" + dataA.substring(0,5);
 
     aggiornaDashboard();
 
