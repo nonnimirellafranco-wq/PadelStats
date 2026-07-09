@@ -2807,3 +2807,14 @@ body.temaScuro textarea{
     letter-spacing:2px;
 
 }
+
+.shareLogo{
+    display:block;
+    height:42px;
+    width:auto;
+    margin:0 auto;
+}
+
+input[type="date"]{
+    text-align:center;
+}

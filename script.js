@@ -185,9 +185,7 @@ function salvaValoriIniziali(){
     localStorage.setItem("racchettaDefault",
         document.getElementById("defaultRacchetta").value);
 
-    localStorage.setItem("pallineDefault",
-        document.getElementById("defaultPalline").value);
-
+   
     localStorage.setItem("scarpeDefault",
         document.getElementById("defaultScarpe").value);
 
@@ -236,9 +234,7 @@ if(partitaInModifica !== -1){
     document.getElementById("circolo").value =
     localStorage.getItem("circoloDefault") || "";
 
-    document.getElementById("palline").value =
-    localStorage.getItem("pallineDefault") || "";
-
+   
     document.getElementById("campo").value =
     localStorage.getItem("campoDefault") || "Indoor";
 
@@ -1305,34 +1301,6 @@ function aggiornaScarpe(){
 
 }
 
-// ----------------------------
-// AGGIORNA ELENCO PALLINE
-// ----------------------------
-
-function aggiornaPalline(){
-
-    let elenco=[];
-
-    partite.forEach(function(p){
-
-        if(p.palline && !elenco.includes(p.palline))
-            elenco.push(p.palline);
-
-    });
-
-    elenco.sort();
-
-    let html="";
-
-    elenco.forEach(function(nome){
-
-        html += `<option value="${nome}">`;
-
-    });
-
-    document.getElementById("listaPalline").innerHTML = html;
-
-}
 
 function aggiornaStatisticheTipoPartita(){
 
@@ -2198,7 +2166,7 @@ document.getElementById("statAttrezzatura").innerHTML="";
 
     creaStatAttrezzatura("racchetta","🎾 Racchetta");
     creaStatAttrezzatura("scarpe","👟 Scarpe");
-    creaStatAttrezzatura("palline","🎾 Palline");
+   
 
 }
 
@@ -2568,7 +2536,7 @@ function aggiornaTutto(){
 
     aggiornaRacchette();
     aggiornaScarpe();
-    aggiornaPalline();
+    
 
     aggiornaStatisticheGiocatori();
 
