@@ -2371,18 +2371,29 @@ function aggiornaMigliorCircolo(){
 
     }
 
-    document.getElementById("migliorCircolo").innerHTML = `
+let classifica = Object.keys(circoli)
+.sort((a,b) => circoli[b].partite - circoli[a].partite)
+.map(function(nome, indice){
 
-        <h3>${migliore.nome}</h3>
+    let g = circoli[nome];
 
-        <p>Partite: ${migliore.partite}</p>
+    let medaglia = "";
 
-        <p>Vittorie: ${migliore.vittorie}</p>
+    if(indice === 0) medaglia = "🥇 ";
+    else if(indice === 1) medaglia = "🥈 ";
+    else if(indice === 2) medaglia = "🥉 ";
 
-        <p><b>${migliore.percentuale}%</b></p>
-
+    return `
+        <p>
+            <b>${medaglia}${nome}</b><br>
+            ${g.partite} partite
+            ${indice === 0 ? ` • ${g.vittorie} vittorie • ${Math.round(g.vittorie/g.partite*100)}%` : ""}
+        </p>
     `;
 
+}).join("");
+
+document.getElementById("migliorCircolo").innerHTML = classifica;
 }
 
 // ----------------------------
@@ -3586,7 +3597,7 @@ function popupCircoli(){
 
         <div class="miniCard">
 
-            <h3>🏟️ Miglior Circolo</h3>
+            <h3>🏆 Circolo preferito</h3>
 
             ${document.getElementById("migliorCircolo").innerHTML}
 
