@@ -274,17 +274,14 @@
 
 <div class="headerNuovaPartita">
 
-    <button id="btnIndietro"
-            class="btnIndietro"
-            onclick="tornaIndietro()">
-        ←
-    </button>
-
     <h2 id="titoloNuovaPartita">
         Nuova partita
     </h2>
 
+    <span class="chiudiPagina" onclick="mostraHome()">✖</span>
+
 </div>
+
 <div class="card cardModalita">
 
     <h3>👥 Modalità di gioco</h3>
@@ -581,12 +578,9 @@ id="esito">
 
 <div class="headerPagina">
 
-    <button class="btnIndietro"
-            onclick="tornaIndietro()">
-        ←
-    </button>
-
     <h2>Archivio</h2>
+
+    <span class="chiudiPagina" onclick="mostraHome()">✖</span>
 
 </div>
 
@@ -606,7 +600,13 @@ id="esito">
 
 <section id="statistiche" style="display:none;">
 
-<h2>📊 Dashboard Statistiche</h2>
+<div class="headerPagina">
+
+    <h2>📊 Dashboard Statistiche</h2>
+
+    <span class="chiudiPagina" onclick="mostraHome()">✖</span>
+
+</div>
 
 <div class="grigliaStatistiche">
 
@@ -769,10 +769,15 @@ id="esito">
 
 <section id="valoriIniziali" style="display:none;">
 
-    <form>
+    <div class="headerPagina">
 
         <h2>⚙️ Valori iniziali</h2>
 
+        <span class="chiudiPagina" onclick="mostraHome()">✖</span>
+
+    </div>
+
+    <form>
         <label>🎾 Racchetta</label>
         <input type="text" id="defaultRacchetta">
 
@@ -831,10 +836,15 @@ id="esito">
 
 <section id="impostazioni" style="display:none;">
 
-<div class="card">
+<div class="headerPagina">
 
     <h2>👤 Profilo</h2>
 
+    <span class="chiudiPagina" onclick="mostraHome()">✖</span>
+
+</div>
+
+<div class="card">
     <img id="fotoProfilo"
          src=""
          class="fotoProfilo">
@@ -910,9 +920,15 @@ id="esito">
 
 <section id="impostazioniApp" style="display:none;">
 
-<div class="card">
+<div class="headerPagina">
 
-<h2>⚙️ Impostazioni</h2>
+    <h2>⚙️ Impostazioni</h2>
+
+    <span class="chiudiPagina" onclick="mostraHome()">✖</span>
+
+</div>
+
+<div class="card">
 
 <div class="bloccoImpostazioni">
 
@@ -957,10 +973,15 @@ id="esito">
 
 <section id="backup" style="display:none;">
 
-  <div class="card backupCard">
+<div class="headerPagina">
 
     <h2>💾 Backup</h2>
 
+    <span class="chiudiPagina" onclick="mostraHome()">✖</span>
+
+</div>
+
+<div class="card backupCard">
     <button id="esportaDati" class="btnBackup">
         📤 Esporta Backup
     </button>
@@ -983,9 +1004,15 @@ id="esito">
 
 <section id="informazioni" style="display:none;">
 
-    <div class="card">
+    <div class="headerPagina">
 
         <h2>ℹ️ Informazioni</h2>
+
+        <span class="chiudiPagina" onclick="mostraHome()">✖</span>
+
+    </div>
+
+    <div class="card">
 
         <p><b>Padel Stats</b></p>
 

@@ -1672,6 +1672,7 @@ input[type=number]{
     cursor:pointer;
 
 }
+
 .miniCard{
 
     background:#ffffff;
@@ -2507,23 +2508,7 @@ body.temaScuro textarea{
 
 }
 
-/* Colori fissi della card di condivisione */
-.shareCard b,
-.shareCard span,
-.shareCard .shareData,
-.shareCard .shareVs,
-.shareCard .shareFooter,
-.shareCard .shareBrand{
 
-    color:#222 !important;
-
-}
-
-.shareCard .shareRisultato{
-
-    color:#1565C0 !important;
-
-}
 
 .shareData{
 
@@ -2786,7 +2771,7 @@ body.temaScuro textarea{
 
     align-items:center;
 
-    gap:12px;
+   position:relative;
 
     margin-bottom:20px;
 
@@ -2847,4 +2832,74 @@ body.temaScuro textarea{
 
 input[type="date"]{
     text-align:center;
+}
+
+.headerNuovaPartita{
+
+    position:relative;
+
+    margin-bottom:20px;
+
+    padding-right:50px;
+
+}
+
+.chiudiPagina{
+
+    position:absolute;
+
+    right:20px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:26px;
+
+    cursor:pointer;
+
+}
+
+.titoloCalendario{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    width:100%;
+
+}
+
+.meseNavigazione{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.meseTitolo{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+}
+
+.chiudiAgenda{
+
+    cursor:pointer;
+
+    font-size:26px;
+
+    line-height:1;
+
+    align-self:flex-start;
+
+    margin-top:2px;
+
 }

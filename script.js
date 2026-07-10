@@ -3225,13 +3225,23 @@ function aggiornaAgenda(){
         "Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"
     ];
 
-    document.getElementById("headerCalendario").innerHTML = `
+   document.getElementById("headerCalendario").innerHTML = `
 
-<span class="btnMese" onclick="mesePrecedente()">◀</span>
+<div class="titoloCalendario">
 
-<span>🗓 ${mesi[meseCorrente]} ${annoCorrente}</span>
+    <div class="meseNavigazione">
 
-<span class="btnMese" onclick="meseSuccessivo()">▶</span>
+        <span class="btnMese" onclick="mesePrecedente()">◀</span>
+
+        <span class="meseTitolo">🗓 ${mesi[meseCorrente]} ${annoCorrente}</span>
+
+        <span class="btnMese" onclick="meseSuccessivo()">▶</span>
+
+    </div>
+
+    <span class="chiudiAgenda" onclick="mostraHome()">✖</span>
+
+</div>
 
 `;
 
