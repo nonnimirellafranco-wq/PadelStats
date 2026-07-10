@@ -2507,6 +2507,24 @@ body.temaScuro textarea{
 
 }
 
+/* Colori fissi della card di condivisione */
+.shareCard b,
+.shareCard span,
+.shareCard .shareData,
+.shareCard .shareVs,
+.shareCard .shareFooter,
+.shareCard .shareBrand{
+
+    color:#222 !important;
+
+}
+
+.shareCard .shareRisultato{
+
+    color:#1565C0 !important;
+
+}
+
 .shareData{
 
     text-align:center;
