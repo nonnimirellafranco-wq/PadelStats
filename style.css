@@ -2779,31 +2779,6 @@ body.temaScuro textarea{
 
 }
 
-.btnIndietro{
-
-    background:none;
-
-    border:none;
-
-    color:var(--primary);
-
-    font-size:34px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    padding:0;
-
-    line-height:1;
-
-}
-
-.btnIndietro:hover{
-
-    transform:translateX(-3px);
-
-}
 
 .shareLogoFooter{
 
@@ -2852,7 +2827,7 @@ input[type="date"]{
 
     right:20px;
 
-    top:50%;
+    top:45%;
 
     transform:translateY(-50%);
 
@@ -2903,5 +2878,25 @@ input[type="date"]{
     align-self:flex-start;
 
     margin-top:2px;
+
+}
+
+.logoMenu{
+
+    display:block;
+
+    height:42px;
+
+    width:auto;
+
+}
+
+.iconaMenu{
+
+    width:56px;
+
+    height:56px;
+
+    object-fit:contain;
 
 }

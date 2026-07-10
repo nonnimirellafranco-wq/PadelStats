@@ -12,7 +12,7 @@ let dataInizioPeriodo = null;
 let dataFinePeriodo = null;
 // indice della partita in modifica
 let partitaInModifica = -1;
-let schermataPrecedente = "home";
+
 let meseCorrente = new Date().getMonth();
 let annoCorrente = new Date().getFullYear();
 
@@ -46,7 +46,7 @@ const btnSalva = document.getElementById("salvaPartita");
 const btnTorna = document.getElementById("btnTorna");
 const btnSalvaProfilo = document.getElementById("salvaProfilo");
 
-btnTorna.onclick = tornaIndietro;
+btnTorna.onclick = mostraHome;
 
 
 // ----------------------------
@@ -195,6 +195,8 @@ function salvaValoriIniziali(){
     localStorage.setItem("campoDefault",
         document.getElementById("defaultCampo").value);
 
+     alert("✅ Valori iniziali salvati.");
+
 }
 
 function mostraNuova(){
@@ -327,7 +329,7 @@ function mostraArchivio(){
 btnHome.onclick = mostraHome;
 btnNuova.onclick = function(){
 
-    schermataPrecedente = "home";
+    
     partitaInModifica = -1;
 
     mostraNuova();
@@ -616,13 +618,6 @@ document.getElementById("listaPartite").innerHTML = html;
 
 btnSalva.onclick = function () {
 
-const btnTorna = document.getElementById("btnTorna");
-
-if(btnTorna){
-
-    btnTorna.onclick = tornaIndietro;
-
-}
 
 aggiornaRisultato();
 
@@ -1082,15 +1077,15 @@ function modificaPartita(indice){
     // Memorizza la schermata di provenienza
     if(agenda.style.display=="block"){
 
-        schermataPrecedente = "agenda";
+        
 
     }else if(archivio.style.display=="block"){
 
-        schermataPrecedente = "archivio";
+    
 
     }else{
 
-        schermataPrecedente = "home";
+        
 
     }
 
@@ -3043,7 +3038,7 @@ function apriGiorno(data){
 
     if(partiteGiorno.length==0){
 
-        schermataPrecedente = "agenda";
+        
 
         mostraNuova();
 
